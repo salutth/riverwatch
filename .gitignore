@@ -9,3 +9,6 @@ make_pptx.js
 package.json
 package-lock.json
 ml/*.pt
+
+# Graphify 코드 지식그래프 (로컬 도구 산출물)
+graphify-out/
