@@ -1,0 +1,4 @@
+var RW_CONFIG = {
+  SUPABASE_URL: 'https://luczuisihsskyhhqgviy.supabase.co',
+  SUPABASE_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx1Y3p1aXNpaHNza3loaHFndml5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5ODEyOTMsImV4cCI6MjA5ODU1NzI5M30.0OUvdrYVWMnwGpE8vq6EeW-cMI9cZ2bw8ShMwrJARuU',
+};

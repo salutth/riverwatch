@@ -379,9 +379,10 @@
     <a href="/today" class="cta-secondary">📊 오늘의 카드</a>
   </div>
 
+  <script src="config.js"></script>
   <script>
-    const SUPABASE_URL = 'https://luczuisihsskyhhqgviy.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx1Y3p1aXNpaHNza3loaHFndml5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5ODEyOTMsImV4cCI6MjA5ODU1NzI5M30.0OUvdrYVWMnwGpE8vq6EeW-cMI9cZ2bw8ShMwrJARuU';
+    const SUPABASE_URL = RW_CONFIG.SUPABASE_URL;
+    const SUPABASE_KEY = RW_CONFIG.SUPABASE_KEY;
 
     async function query(table, params) {
       const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${params}`, {

@@ -728,9 +728,10 @@
     <div class="report-page" id="reportContent"></div>
   </div>
 
+  <script src="config.js"></script>
   <script>
-    const SUPABASE_URL = 'https://luczuisihsskyhhqgviy.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx1Y3p1aXNpaHNza3loaHFndml5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5ODEyOTMsImV4cCI6MjA5ODU1NzI5M30.0OUvdrYVWMnwGpE8vq6EeW-cMI9cZ2bw8ShMwrJARuU';
+    const SUPABASE_URL = RW_CONFIG.SUPABASE_URL;
+    const SUPABASE_KEY = RW_CONFIG.SUPABASE_KEY;
 
     const headers = {
       'apikey': SUPABASE_KEY,
@@ -869,9 +870,9 @@
           }).addTo(map);
           const t = r.measured_at ? new Date(r.measured_at).toLocaleString('ko-KR', { month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit' }) : '';
           const parts = [];
-          if (r.ph != null) parts.push(`pH ${r.ph}`);
-          if (r.dissolved_oxygen != null) parts.push(`DO ${r.dissolved_oxygen}`);
-          if (r.water_temp != null) parts.push(`${r.water_temp}°C`);
+          if (r.ph != null) parts.push(`pH ${Number(r.ph)}`);
+          if (r.dissolved_oxygen != null) parts.push(`DO ${Number(r.dissolved_oxygen)}`);
+          if (r.water_temp != null) parts.push(`${Number(r.water_temp)}°C`);
           marker.bindPopup(`
             <b>💧 시민측정</b> — ${esc(r.river||'')}<br>
             ${parts.join(' · ')}<br>
@@ -2265,10 +2266,10 @@
       rows.forEach(r => {
         const t = r.measured_at ? new Date(r.measured_at).toLocaleString('ko-KR', { month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit' }) : '';
         const parts = [];
-        if (r.ph != null) parts.push(`pH ${r.ph}`);
-        if (r.dissolved_oxygen != null) parts.push(`DO ${r.dissolved_oxygen}`);
-        if (r.water_temp != null) parts.push(`${r.water_temp}°C`);
-        if (r.turbidity != null) parts.push(`탁도 ${r.turbidity}`);
+        if (r.ph != null) parts.push(`pH ${Number(r.ph)}`);
+        if (r.dissolved_oxygen != null) parts.push(`DO ${Number(r.dissolved_oxygen)}`);
+        if (r.water_temp != null) parts.push(`${Number(r.water_temp)}°C`);
+        if (r.turbidity != null) parts.push(`탁도 ${Number(r.turbidity)}`);
         const gc = r.do_grade === '매우좋음' || r.do_grade === '좋음' ? '#2ecc71' : r.do_grade === '보통' ? '#f39c12' : '#888';
         const hasPhoto = r.photo_data ? '📷' : '';
         const hasLoc = (r.latitude && r.longitude) ? '📍' : '';
@@ -2463,7 +2464,7 @@
           html += '<table><thead><tr><th>측정자</th><th>pH</th><th>DO</th><th>수온</th><th>탁도</th><th>등급</th><th>수색</th><th>일시</th></tr></thead><tbody>';
           cwRows.forEach(r => {
             const t = r.measured_at ? new Date(r.measured_at).toLocaleString('ko-KR', { month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit' }) : '';
-            html += `<tr><td>${esc(r.observer||'')}</td><td>${r.ph??'-'}</td><td>${r.dissolved_oxygen??'-'}</td><td>${r.water_temp??'-'}</td><td>${r.turbidity??'-'}</td><td>${esc(r.do_grade||'-')}</td><td>${esc(r.water_color||'-')}</td><td>${t}</td></tr>`;
+            html += `<tr><td>${esc(r.observer||'')}</td><td>${r.ph!=null?Number(r.ph):'-'}</td><td>${r.dissolved_oxygen!=null?Number(r.dissolved_oxygen):'-'}</td><td>${r.water_temp!=null?Number(r.water_temp):'-'}</td><td>${r.turbidity!=null?Number(r.turbidity):'-'}</td><td>${esc(r.do_grade||'-')}</td><td>${esc(r.water_color||'-')}</td><td>${t}</td></tr>`;
           });
           html += '</tbody></table>';
         }

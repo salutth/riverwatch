@@ -210,9 +210,10 @@
     Beta 시범운영 중
   </div>
 
+  <script src="config.js"></script>
   <script>
-    const SB='https://luczuisihsskyhhqgviy.supabase.co';
-    const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx1Y3p1aXNpaHNza3loaHFndml5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5ODEyOTMsImV4cCI6MjA5ODU1NzI5M30.0OUvdrYVWMnwGpE8vq6EeW-cMI9cZ2bw8ShMwrJARuU';
+    const SB=RW_CONFIG.SUPABASE_URL;
+    const KEY=RW_CONFIG.SUPABASE_KEY;
     const H={'apikey':KEY,'Authorization':`Bearer ${KEY}`};
 
     fetch(`${SB}/rest/v1/species_observations?select=taxon_name&limit=500`,{headers:H})

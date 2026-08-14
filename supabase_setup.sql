@@ -101,7 +101,7 @@ where river <> trim(river);
 alter table species_observations
   add column if not exists inaturalist_id bigint;
 create unique index if not exists uq_species_inat_id
-  on species_observations(inaturalist_id) where inaturalist_id is not null;
+  on species_observations(inaturalist_id);
 
 alter table river_readings
   add constraint uq_readings_station_time unique (station, measured_at);
@@ -257,3 +257,22 @@ create policy "cwq_insert" on citizen_water_quality for insert with check (true)
 
 create index if not exists idx_cwq_river on citizen_water_quality(river);
 create index if not exists idx_cwq_measured on citizen_water_quality(measured_at desc);
+
+-- 13. 회원 (시민 자가 가입 — anon INSERT 허용, SELECT는 service_role만)
+create table if not exists members (
+  id bigint generated always as identity primary key,
+  name text not null,
+  email text not null,
+  birth_date text not null check (length(birth_date) = 6),
+  district text not null,
+  support_donation boolean default false,
+  support_auto_debit boolean default false,
+  promo_link_active boolean default false,
+  registered_at timestamptz default now()
+);
+
+alter table members enable row level security;
+create policy "members_insert" on members for insert with check (true);
+create policy "members_read" on members for select using ((current_setting('role') = 'service_role'));
+
+create unique index if not exists uq_members_email on members(email);

@@ -107,7 +107,7 @@ def fetch_all_seoul_assets():
 
     while True:
         url = (
-            f"http://www.cha.go.kr/cha/SearchKindOpenapiList.do"
+            f"https://www.cha.go.kr/cha/SearchKindOpenapiList.do"
             f"?ccbaCtcd=11&pageUnit={page_size}&pageIndex={page}"
         )
         try:
@@ -116,7 +116,9 @@ def fetch_all_seoul_assets():
                 raw = resp.read()
                 text = raw.decode("utf-8", errors="replace")
 
-            root = ET.fromstring(text)
+            parser = ET.XMLParser()
+            parser.entity = {}
+            root = ET.fromstring(text, parser=parser)
             items = root.findall(".//item")
 
             if not items:

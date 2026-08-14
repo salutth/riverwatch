@@ -151,9 +151,10 @@
     <div class="date-label" id="dateLabel"></div>
   </div>
 
+  <script src="config.js"></script>
   <script>
-    const SUPABASE_URL = 'https://luczuisihsskyhhqgviy.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx1Y3p1aXNpaHNza3loaHFndml5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5ODEyOTMsImV4cCI6MjA5ODU1NzI5M30.0OUvdrYVWMnwGpE8vq6EeW-cMI9cZ2bw8ShMwrJARuU';
+    const SUPABASE_URL = RW_CONFIG.SUPABASE_URL;
+    const SUPABASE_KEY = RW_CONFIG.SUPABASE_KEY;
 
     const headers = {
       'apikey': SUPABASE_KEY,
@@ -449,8 +450,9 @@
       document.getElementById('cardWrapper').style.display = 'none';
       document.getElementById('actions').style.display = 'none';
       buildCard().catch(err => {
-        document.getElementById('loading').innerHTML =
-          `<div style="color:#e74c3c">카드 생성 실패</div><div style="color:#555;margin-top:0.5rem;font-size:0.8rem">${err.message}</div>`;
+        const el = document.getElementById('loading');
+        el.innerHTML = '<div style="color:#e74c3c">카드 생성 실패</div><div id="errMsg" style="color:#555;margin-top:0.5rem;font-size:0.8rem"></div>';
+        el.querySelector('#errMsg').textContent = err.message;
       });
     });
 

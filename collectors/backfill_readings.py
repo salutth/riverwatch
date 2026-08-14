@@ -196,6 +196,9 @@ def main():
     for i, arg in enumerate(sys.argv):
         if arg == "--days" and i + 1 < len(sys.argv):
             days = int(sys.argv[i + 1])
+            if days < 1 or days > 365:
+                print("⚠️  --days 범위: 1~365")
+                sys.exit(1)
 
     print("=" * 50)
     if synthetic:
