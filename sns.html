@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SNS 허브 — RiverWatch</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css');
+
+    :root {
+      --bg: #f6f7fb;
+      --bg-card: rgba(255,255,255,0.85);
+      --bg-card-hover: rgba(255,255,255,0.95);
+      --text: #1a1a2e;
+      --text-sub: #5a5a7a;
+      --text-muted: #8888a0;
+      --accent: #5b4cf0;
+      --accent-light: #7b6ff5;
+      --accent-glow: rgba(91,76,240,0.12);
+      --border: rgba(0,0,0,0.06);
+      --border-hover: rgba(91,76,240,0.35);
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+      --card-shadow-hover: 0 4px 16px rgba(91,76,240,0.12);
+      --nav-bg: rgba(255,255,255,0.72);
+      --nav-border: rgba(0,0,0,0.06);
+      --footer-bg: #f0f0f5;
+      --hero-from: #e8e4ff;
+      --hero-to: #f6f7fb;
+      --badge-bg: #eef;
+      --badge-text: #5b4cf0;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0c0c14;
+        --bg-card: rgba(22,22,36,0.8);
+        --bg-card-hover: rgba(30,30,50,0.92);
+        --text: #e8e8f0;
+        --text-sub: #a0a0b8;
+        --text-muted: #666680;
+        --accent: #7b6ff5;
+        --accent-light: #9b92ff;
+        --accent-glow: rgba(123,111,245,0.15);
+        --border: rgba(255,255,255,0.06);
+        --border-hover: rgba(123,111,245,0.4);
+        --card-shadow: 0 1px 3px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.15);
+        --card-shadow-hover: 0 4px 20px rgba(123,111,245,0.18);
+        --nav-bg: rgba(16,16,28,0.82);
+        --nav-border: rgba(255,255,255,0.06);
+        --footer-bg: #0e0e18;
+        --hero-from: #14122a;
+        --hero-to: #0c0c14;
+        --badge-bg: rgba(91,76,240,0.15);
+        --badge-text: #9b92ff;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #0c0c14;
+      --bg-card: rgba(22,22,36,0.8);
+      --bg-card-hover: rgba(30,30,50,0.92);
+      --text: #e8e8f0;
+      --text-sub: #a0a0b8;
+      --text-muted: #666680;
+      --accent: #7b6ff5;
+      --accent-light: #9b92ff;
+      --accent-glow: rgba(123,111,245,0.15);
+      --border: rgba(255,255,255,0.06);
+      --border-hover: rgba(123,111,245,0.4);
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.15);
+      --card-shadow-hover: 0 4px 20px rgba(123,111,245,0.18);
+      --nav-bg: rgba(16,16,28,0.82);
+      --nav-border: rgba(255,255,255,0.06);
+      --footer-bg: #0e0e18;
+      --hero-from: #14122a;
+      --hero-to: #0c0c14;
+      --badge-bg: rgba(91,76,240,0.15);
+      --badge-text: #9b92ff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.65rem 1.5rem;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--nav-border);
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-weight: 700; font-size: 1.1rem; color: var(--text);
+      text-decoration: none;
+    }
+    .nav-brand span { color: var(--accent); }
+    .nav-back {
+      padding: 0.35rem 0.7rem; border-radius: 8px;
+      font-size: 0.8rem; color: var(--text-sub);
+      text-decoration: none; transition: all 0.15s;
+    }
+    .nav-back:hover { background: var(--accent-glow); color: var(--accent); }
+
+    .hero {
+      background: linear-gradient(165deg, var(--hero-from) 0%, var(--hero-to) 70%);
+      padding: 3rem 1.5rem 2rem;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -30%; right: -15%;
+      width: 400px; height: 400px; border-radius: 50%;
+      background: var(--accent-glow); filter: blur(60px);
+      pointer-events: none;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.65rem; font-weight: 700;
+      padding: 0.25rem 0.7rem; border-radius: 6px;
+      background: var(--badge-bg); color: var(--badge-text);
+      text-transform: uppercase; letter-spacing: 1.5px;
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-weight: 800; line-height: 1.25;
+      margin-bottom: 0.5rem; position: relative;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      -webkit-background-clip: text; -webkit-text-color: transparent;
+      background-clip: text; color: transparent;
+    }
+    .hero p {
+      color: var(--text-sub); font-size: 0.92rem;
+      max-width: 480px; margin: 0 auto; line-height: 1.6;
+      position: relative;
+    }
+
+    .container { max-width: 860px; margin: 0 auto; padding: 0 1.25rem 3rem; }
+
+    .section { margin-top: 2.5rem; }
+    .section-head {
+      display: flex; align-items: center; gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .section-tag {
+      font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.5px; color: var(--accent);
+    }
+    .section-line { flex: 1; height: 1px; background: var(--border); }
+
+    /* SNS Cards */
+    .sns-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 0.85rem;
+    }
+    .sns-card {
+      display: block; text-decoration: none; color: var(--text);
+      padding: 1.3rem 1.2rem;
+      background: var(--bg-card);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
+      transition: all 0.2s ease;
+      position: relative; overflow: hidden;
+    }
+    .sns-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+      box-shadow: var(--card-shadow-hover);
+      transform: translateY(-2px);
+    }
+    .sns-card .card-top {
+      display: flex; align-items: center; gap: 0.7rem;
+      margin-bottom: 0.7rem;
+    }
+    .sns-card .card-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; flex-shrink: 0;
+    }
+    .sns-card .card-name {
+      font-size: 0.95rem; font-weight: 700;
+    }
+    .sns-card .card-handle {
+      font-size: 0.72rem; color: var(--text-muted);
+    }
+    .sns-card .card-desc {
+      font-size: 0.8rem; color: var(--text-sub);
+      line-height: 1.5; margin-bottom: 0.7rem;
+    }
+    .sns-card .card-action {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      font-size: 0.75rem; font-weight: 600;
+      color: var(--accent); transition: gap 0.2s;
+    }
+    .sns-card:hover .card-action { gap: 0.5rem; }
+    .sns-card .stripe {
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+
+    /* platform-specific stripes */
+    .stripe-instagram { background: linear-gradient(90deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+    .stripe-facebook { background: #1877F2; }
+    .stripe-tiktok { background: linear-gradient(90deg, #00f2ea, #ff0050); }
+    .stripe-naver { background: #03C75A; }
+    .stripe-kakao { background: #FEE500; }
+    .stripe-seoul { background: linear-gradient(90deg, #003876, #1a6bb5); }
+    .stripe-mcst { background: linear-gradient(90deg, #c62828, #e53935); }
+
+    .icon-instagram { background: linear-gradient(135deg, rgba(240,148,51,0.12), rgba(188,24,136,0.12)); }
+    .icon-facebook { background: rgba(24,119,242,0.1); }
+    .icon-tiktok { background: rgba(0,0,0,0.06); }
+    .icon-naver { background: rgba(3,199,90,0.1); }
+    .icon-kakao { background: rgba(254,229,0,0.15); }
+    .icon-seoul { background: rgba(0,56,118,0.08); }
+    .icon-mcst { background: rgba(198,40,40,0.08); }
+
+    /* Strategy section */
+    .strategy-card {
+      padding: 1.3rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 0.75rem;
+    }
+    .strategy-card h3 {
+      font-size: 0.9rem; font-weight: 700;
+      margin-bottom: 0.4rem;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .strategy-card p {
+      font-size: 0.8rem; color: var(--text-sub);
+      line-height: 1.6;
+    }
+    .strategy-card .tags {
+      display: flex; gap: 0.3rem; flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .strategy-card .tag {
+      font-size: 0.65rem; font-weight: 600;
+      padding: 0.15rem 0.5rem; border-radius: 6px;
+      background: var(--badge-bg); color: var(--badge-text);
+    }
+
+    footer {
+      background: var(--footer-bg);
+      text-align: center; padding: 2rem 1rem;
+      font-size: 0.72rem; color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+    footer a { color: var(--text-sub); text-decoration: none; }
+
+    @media (max-width: 640px) {
+      .hero { padding: 2rem 1rem 1.5rem; }
+      .sns-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<script src="gate.js"></script>
+
+<nav>
+  <a class="nav-brand" href="/">🌊 River<span>Watch</span></a>
+  <a class="nav-back" href="/">← 홈으로</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-tag">2026 SNS 활동</div>
+  <h1>도림천 <em>소셜 허브</em></h1>
+  <p>건강한도림천을만드는주민모임의 공식 SNS 채널 — 7개 플랫폼에서 도림천 이야기를 만나보세요</p>
+</section>
+
+<div class="container">
+
+  <div class="section" id="channels">
+    <div class="section-head">
+      <span class="section-tag">공식 채널</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="sns-grid">
+
+      <a class="sns-card" id="instagram" href="#instagram">
+        <div class="stripe stripe-instagram"></div>
+        <div class="card-top">
+          <div class="card-icon icon-instagram">📸</div>
+          <div>
+            <div class="card-name">인스타그램</div>
+            <div class="card-handle">@dorimcheon (예정)</div>
+          </div>
+        </div>
+        <div class="card-desc">도림천 생태 사진, 축제 현장, 시민과학 활동 기록 — 비주얼 중심 콘텐츠</div>
+        <span class="card-action">팔로우하기 →</span>
+      </a>
+
+      <a class="sns-card" id="facebook" href="#facebook">
+        <div class="stripe stripe-facebook"></div>
+        <div class="card-top">
+          <div class="card-icon icon-facebook">👍</div>
+          <div>
+            <div class="card-name">페이스북</div>
+            <div class="card-handle">건강한도림천을만드는주민모임 (예정)</div>
+          </div>
+        </div>
+        <div class="card-desc">활동 보고, 이벤트 공유, 지역 커뮤니티 소식 — 장문 콘텐츠 & 이벤트</div>
+        <span class="card-action">좋아요 →</span>
+      </a>
+
+      <a class="sns-card" id="tiktok" href="#tiktok">
+        <div class="stripe stripe-tiktok"></div>
+        <div class="card-top">
+          <div class="card-icon icon-tiktok">🎵</div>
+          <div>
+            <div class="card-name">틱톡</div>
+            <div class="card-handle">@dorimcheon (예정)</div>
+          </div>
+        </div>
+        <div class="card-desc">숏폼 영상 — 도림천 생물 발견, 수위 변화 타임랩스, 축제 하이라이트</div>
+        <span class="card-action">팔로우하기 →</span>
+      </a>
+
+      <a class="sns-card" id="blog" href="#blog">
+        <div class="stripe stripe-naver"></div>
+        <div class="card-top">
+          <div class="card-icon icon-naver">📝</div>
+          <div>
+            <div class="card-name">네이버 블로그</div>
+            <div class="card-handle">건강한도림천 (예정)</div>
+          </div>
+        </div>
+        <div class="card-desc">심층 활동 기록, 생태 보고서, 주민 인터뷰 — 검색 최적화 & 아카이빙</div>
+        <span class="card-action">이웃추가 →</span>
+      </a>
+
+      <a class="sns-card" id="kakao" href="#kakao">
+        <div class="stripe stripe-kakao"></div>
+        <div class="card-top">
+          <div class="card-icon icon-kakao">💬</div>
+          <div>
+            <div class="card-name">카카오</div>
+            <div class="card-handle">채널 · 오픈채팅 (예정)</div>
+          </div>
+        </div>
+        <div class="card-desc">카카오톡 채널 알림 · 오픈채팅방 · 주민 소통 — 실시간 참여 & 알림</div>
+        <span class="card-action">채널 추가 →</span>
+      </a>
+
+      <a class="sns-card" id="seoul" href="#seoul">
+        <div class="stripe stripe-seoul"></div>
+        <div class="card-top">
+          <div class="card-icon icon-seoul">🏛️</div>
+          <div>
+            <div class="card-name">서울시 공식 페이지</div>
+            <div class="card-handle">서울특별시 환경 · 하천 분야</div>
+          </div>
+        </div>
+        <div class="card-desc">서울시 하천 정책, 도림천 관련 공식 발표, 시민 참여 프로그램 연계</div>
+        <span class="card-action">바로가기 →</span>
+      </a>
+
+      <a class="sns-card" id="mcst" href="#mcst">
+        <div class="stripe stripe-mcst"></div>
+        <div class="card-top">
+          <div class="card-icon icon-mcst">🎭</div>
+          <div>
+            <div class="card-name">문화체육관광부</div>
+            <div class="card-handle">문화재 · 지역문화 분야</div>
+          </div>
+        </div>
+        <div class="card-desc">도림천 유역 문화재 정보, 공예문화 축제 지원, 지역문화 진흥 연계</div>
+        <span class="card-action">바로가기 →</span>
+      </a>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <span class="section-tag">2026 콘텐츠 전략</span>
+      <span class="section-line"></span>
+    </div>
+
+    <div class="strategy-card">
+      <h3>📅 월간 콘텐츠 캘린더</h3>
+      <p>매월 정기 콘텐츠: 수질 보고서 요약, 이달의 관찰종, 시민과학 하이라이트, AI 예측 인사이트.
+         축제 시즌에는 카운트다운, 비하인드, 현장 라이브 추가.</p>
+      <div class="tags">
+        <span class="tag">정기 발행</span>
+        <span class="tag">크로스 포스팅</span>
+      </div>
+    </div>
+
+    <div class="strategy-card">
+      <h3>🎯 플랫폼별 역할</h3>
+      <p><strong>인스타그램</strong> — 비주얼 (생태 사진, 릴스) · <strong>틱톡</strong> — 숏폼 (발견 순간, 타임랩스) ·
+         <strong>페이스북</strong> — 커뮤니티 (이벤트, 토론) · <strong>네이버</strong> — 아카이브 (심층 기록, SEO) ·
+         <strong>카카오</strong> — 알림 (실시간 소통)</p>
+      <div class="tags">
+        <span class="tag">비주얼</span>
+        <span class="tag">숏폼</span>
+        <span class="tag">커뮤니티</span>
+        <span class="tag">아카이브</span>
+        <span class="tag">알림</span>
+      </div>
+    </div>
+
+    <div class="strategy-card">
+      <h3>🤖 RiverWatch 연동</h3>
+      <p>AI 수위 예측 결과, K-SAFE 위험지수 변화, 새로운 생물 관찰 데이터를
+         자동으로 SNS 콘텐츠 초안으로 변환 — 데이터 기반 스토리텔링.</p>
+      <div class="tags">
+        <span class="tag">자동화</span>
+        <span class="tag">데이터 스토리텔링</span>
+        <span class="tag">AI 연동</span>
+      </div>
+    </div>
+
+    <div class="strategy-card">
+      <h3>📊 성과 지표</h3>
+      <p>플랫폼별 팔로워 증가율, 게시물 도달률, 시민과학 참여 전환율(SNS → RiverWatch 제보),
+         축제 기간 해시태그 노출량을 월간 집계합니다.</p>
+      <div class="tags">
+        <span class="tag">KPI</span>
+        <span class="tag">월간 리포트</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>&copy; 건강한도림천을만드는주민모임 1999-2026 · 사회혁신교육원</p>
+  <p style="margin-top:0.3rem"><a href="/">RiverWatch 홈</a></p>
+</footer>
+
+<script>
+(function() {
+  var saved = localStorage.getItem('rw_theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+})();
+</script>
+</body>
+</html>

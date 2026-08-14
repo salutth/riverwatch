@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>물의 기억, 도림천 — 제2회 별빛내린 도림천 생태공예문화 페스타</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css');
+
+    :root {
+      --bg: #f6f7fb;
+      --bg-card: rgba(255,255,255,0.85);
+      --text: #1a1a2e;
+      --text-sub: #5a5a7a;
+      --text-muted: #8888a0;
+      --accent: #5b4cf0;
+      --accent-light: #7b6ff5;
+      --gold: #d4a017;
+      --gold-light: #ffd700;
+      --border: rgba(0,0,0,0.06);
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+      --nav-bg: rgba(255,255,255,0.72);
+      --nav-border: rgba(0,0,0,0.06);
+      --footer-bg: #f0f0f5;
+      --act-line: #d0c8f0;
+      --badge-bg: #eef;
+      --badge-text: #5b4cf0;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0c0c14; --bg-card: rgba(22,22,36,0.8);
+        --text: #e8e8f0; --text-sub: #a0a0b8; --text-muted: #666680;
+        --accent: #7b6ff5; --accent-light: #9b92ff;
+        --gold: #ffd700; --gold-light: #ffe44d;
+        --border: rgba(255,255,255,0.06);
+        --card-shadow: 0 1px 3px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.15);
+        --nav-bg: rgba(16,16,28,0.82); --nav-border: rgba(255,255,255,0.06);
+        --footer-bg: #0e0e18; --act-line: #3a3560;
+        --badge-bg: rgba(91,76,240,0.15); --badge-text: #9b92ff;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #0c0c14; --bg-card: rgba(22,22,36,0.8);
+      --text: #e8e8f0; --text-sub: #a0a0b8; --text-muted: #666680;
+      --accent: #7b6ff5; --accent-light: #9b92ff;
+      --gold: #ffd700; --gold-light: #ffe44d;
+      --border: rgba(255,255,255,0.06);
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.15);
+      --nav-bg: rgba(16,16,28,0.82); --nav-border: rgba(255,255,255,0.06);
+      --footer-bg: #0e0e18; --act-line: #3a3560;
+      --badge-bg: rgba(91,76,240,0.15); --badge-text: #9b92ff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.65rem 1.5rem;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--nav-border);
+    }
+    .nav-brand { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 1.1rem; color: var(--text); text-decoration: none; }
+    .nav-brand span { color: var(--accent); }
+    .nav-back { padding: 0.35rem 0.7rem; border-radius: 8px; font-size: 0.8rem; color: var(--text-sub); text-decoration: none; transition: all 0.15s; }
+    .nav-back:hover { background: rgba(91,76,240,0.1); color: var(--accent); }
+
+    /* HERO */
+    .hero {
+      position: relative; overflow: hidden;
+      padding: 4.5rem 1.5rem 3.5rem;
+      background: linear-gradient(165deg, #0a0520 0%, #1a0d3a 30%, #0d0820 100%);
+      text-align: center; color: #fff;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: 20%; left: 50%; transform: translateX(-50%);
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,215,0,0.06) 0%, rgba(91,76,240,0.1) 50%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero .stars { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+    .hero .stars span { position: absolute; width: 2px; height: 2px; background: var(--gold-light); border-radius: 50%; animation: twinkle 3s ease-in-out infinite; }
+    @keyframes twinkle { 0%,100% { opacity: 0.15; } 50% { opacity: 1; } }
+    .hero-tag { display: inline-block; font-size: 0.6rem; font-weight: 700; padding: 0.25rem 0.7rem; border-radius: 6px; background: rgba(255,215,0,0.12); color: var(--gold-light); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 0.8rem; }
+    .hero-eyebrow { font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-bottom: 0.5rem; letter-spacing: 2px; }
+    .hero h1 { font-size: clamp(1.6rem, 5vw, 2.8rem); font-weight: 800; line-height: 1.2; margin-bottom: 0.5rem; text-wrap: balance; }
+    .hero h1 .gold { color: var(--gold-light); }
+    .hero .subtitle { font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-bottom: 1.5rem; }
+    .hero-quote { font-size: 1.05rem; color: rgba(255,255,255,0.7); line-height: 1.7; max-width: 520px; margin: 0 auto 1.5rem; font-style: italic; }
+    .hero-meta { display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap; }
+    .hero-meta .chip { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.3rem 0.7rem; border-radius: 8px; background: rgba(255,255,255,0.08); font-size: 0.75rem; color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.06); }
+
+    .container { max-width: 880px; margin: 0 auto; padding: 0 1.25rem 3rem; }
+    .section { margin-top: 2.8rem; }
+    .section-head { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+    .section-tag { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); }
+    .section-line { flex: 1; height: 1px; background: var(--border); }
+
+    .prose { font-size: 0.92rem; color: var(--text-sub); line-height: 1.8; margin-bottom: 1rem; }
+    .prose strong { color: var(--text); }
+
+    /* ACT CARDS */
+    .acts { display: flex; flex-direction: column; gap: 1rem; }
+    .act-card {
+      display: grid; grid-template-columns: 3.5rem 1fr; gap: 0.8rem;
+      padding: 1.3rem; background: var(--bg-card);
+      backdrop-filter: blur(16px); border: 1px solid var(--border);
+      border-radius: 16px; box-shadow: var(--card-shadow);
+      position: relative;
+    }
+    .act-num {
+      width: 3rem; height: 3rem; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+    }
+    .act-num.a1 { background: rgba(100,200,255,0.1); }
+    .act-num.a2 { background: rgba(120,120,140,0.1); }
+    .act-num.a3 { background: rgba(255,215,0,0.1); }
+    .act-body h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .act-body .story { font-size: 0.82rem; color: var(--text-sub); line-height: 1.6; margin-bottom: 0.4rem; }
+    .act-body .meta-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .act-body .meta-tag { font-size: 0.65rem; font-weight: 600; padding: 0.15rem 0.5rem; border-radius: 6px; background: var(--badge-bg); color: var(--badge-text); }
+
+    /* CHARACTER */
+    .char-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.85rem; }
+    .char-card {
+      padding: 1.2rem; background: var(--bg-card);
+      border: 1px solid var(--border); border-radius: 16px;
+      box-shadow: var(--card-shadow); text-align: center;
+    }
+    .char-card .emoji { font-size: 2.2rem; margin-bottom: 0.5rem; }
+    .char-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.15rem; }
+    .char-card .role { font-size: 0.72rem; color: var(--accent); font-weight: 600; margin-bottom: 0.4rem; }
+    .char-card p { font-size: 0.78rem; color: var(--text-sub); line-height: 1.5; }
+
+    /* CITIZEN */
+    .citizen-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.85rem; }
+    .citizen-card {
+      padding: 1.2rem; background: var(--bg-card);
+      border: 1px solid var(--border); border-radius: 16px;
+      box-shadow: var(--card-shadow);
+    }
+    .citizen-card .top { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.5rem; }
+    .citizen-card .ic { font-size: 1.5rem; }
+    .citizen-card h4 { font-size: 0.92rem; font-weight: 700; }
+    .citizen-card .sub { font-size: 0.72rem; color: var(--accent); font-weight: 600; }
+    .citizen-card p { font-size: 0.78rem; color: var(--text-sub); line-height: 1.6; }
+
+    /* SCHEDULE TABLE */
+    .sched-table { width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; border-radius: 14px; border: 1px solid var(--border); background: var(--bg-card); box-shadow: var(--card-shadow); }
+    .sched-table th, .sched-table td { padding: 0.7rem 0.8rem; font-size: 0.8rem; text-align: left; border-bottom: 1px solid var(--border); }
+    .sched-table th { background: var(--badge-bg); color: var(--badge-text); font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; }
+    .sched-table td { color: var(--text-sub); vertical-align: top; }
+    .sched-table td strong { color: var(--text); }
+    .sched-table tr:last-child td { border-bottom: none; }
+    .sched-table .highlight { background: rgba(255,215,0,0.06); }
+    .sched-wrap { overflow-x: auto; }
+
+    /* IP ASSETS */
+    .ip-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.85rem; }
+    .ip-card {
+      padding: 1.2rem; background: var(--bg-card);
+      border: 1px solid var(--border); border-radius: 16px;
+      box-shadow: var(--card-shadow);
+    }
+    .ip-card .emoji { font-size: 1.6rem; margin-bottom: 0.5rem; }
+    .ip-card h4 { font-size: 0.92rem; font-weight: 700; margin-bottom: 0.15rem; }
+    .ip-card .en { font-size: 0.65rem; color: var(--text-muted); margin-bottom: 0.4rem; }
+    .ip-card p { font-size: 0.78rem; color: var(--text-sub); line-height: 1.6; }
+
+    /* CLOSING QUOTE */
+    .closing {
+      margin-top: 3rem; padding: 2.5rem 1.5rem;
+      text-align: center;
+      background: linear-gradient(165deg, #0a0520 0%, #1a0d3a 30%, #0d0820 100%);
+      border-radius: 20px; color: #fff; position: relative; overflow: hidden;
+    }
+    .closing::before {
+      content: ''; position: absolute; bottom: -20%; left: 50%; transform: translateX(-50%);
+      width: 400px; height: 200px;
+      background: radial-gradient(ellipse, rgba(255,215,0,0.08), transparent 70%);
+      pointer-events: none;
+    }
+    .closing .quote { font-size: clamp(1.1rem, 3vw, 1.5rem); font-weight: 700; line-height: 1.5; margin-bottom: 1rem; position: relative; }
+    .closing .quote .gold { color: var(--gold-light); }
+    .closing p { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.7; max-width: 500px; margin: 0 auto; position: relative; }
+
+    /* CTA */
+    .cta-row { display: flex; gap: 0.75rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap; }
+    .cta-btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.7rem 1.4rem; border-radius: 12px; font-size: 0.85rem; font-weight: 600; text-decoration: none; transition: all 0.2s; }
+    .cta-primary { background: var(--accent); color: #fff; }
+    .cta-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
+    .cta-secondary { background: var(--bg-card); color: var(--text); border: 1px solid var(--border); }
+    .cta-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    footer {
+      background: var(--footer-bg); text-align: center; padding: 2rem 1rem;
+      font-size: 0.72rem; color: var(--text-muted); border-top: 1px solid var(--border);
+    }
+    footer a { color: var(--text-sub); text-decoration: none; }
+
+    @media (max-width: 640px) {
+      .hero { padding: 3rem 1rem 2.5rem; }
+      .char-grid, .citizen-grid, .ip-grid { grid-template-columns: 1fr; }
+      .act-card { grid-template-columns: 2.5rem 1fr; }
+    }
+  </style>
+</head>
+<body>
+<script src="gate.js"></script>
+
+<nav>
+  <a class="nav-brand" href="/">🌊 River<span>Watch</span></a>
+  <a class="nav-back" href="/">← 홈으로</a>
+</nav>
+
+<section class="hero">
+  <div class="stars" id="stars"></div>
+  <div class="hero-tag">제2회 별빛내린 도림천 생태공예문화 페스타</div>
+  <div class="hero-eyebrow">생태음악극</div>
+  <h1>《<span class="gold">물의 기억</span>, 도림천》</h1>
+  <div class="subtitle">기획안 및 운영 전략</div>
+  <p class="hero-quote">예산의 한계를 예술적 연출로 돌파하는<br>새로운 로컬 랜드마크 콘텐츠</p>
+  <div class="hero-meta">
+    <span class="chip">📅 10.24(토) ~ 10.25(일)</span>
+    <span class="chip">📍 도림천 수변 미디어파사드</span>
+    <span class="chip">🎭 3인 배우 + 미디어파사드</span>
+    <span class="chip">💰 1,500~2,000만 원</span>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- 기획 의도 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-tag">예술적 감동과 전략적 효율의 조화</span>
+      <span class="section-line"></span>
+    </div>
+    <p class="prose">
+      <strong>시민의 서사</strong> — 도림천 복원의 실화를 바탕으로 한 빗방울의 여정.
+      관람객이 합창과 아카이브로 직접 참여하여 완성하는 시민 참여형 공연.
+    </p>
+    <p class="prose">
+      <strong>지속 가능한 IP</strong> — 영상과 음원의 자산화, 2027년 모듈형 확장까지 고려한 스마트 운영.
+      기존 도림천 수변 상설 미디어파사드 시스템을 메인 무대 장치로 적극 전환합니다.
+    </p>
+  </div>
+
+  <!-- 3막 구조 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-tag">3막 — 물의 일생</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="acts">
+      <div class="act-card">
+        <div class="act-num a1">💧</div>
+        <div class="act-body">
+          <h3>제1장: 하늘에서 온 아이</h3>
+          <div class="story">관악산 참나무 밑에서 태어난 빗방울 '방울'과 왜가리 '청호'의 만남. 하류로의 여정이 시작됩니다.</div>
+          <div class="meta-row">
+            <span class="meta-tag">창작곡 《물의 노래》</span>
+            <span class="meta-tag">정제 · 동요풍</span>
+            <span class="meta-tag">관악산 능선 실루엣 영상</span>
+          </div>
+        </div>
+      </div>
+      <div class="act-card">
+        <div class="act-num a2">🧱</div>
+        <div class="act-body">
+          <h3>제2장: 잿빛 기억</h3>
+          <div class="story">콘크리트에 덮였던 아픔과 시민들의 기억으로 되살아난 도림천. 물의 정령 '도림'이 등장합니다.</div>
+          <div class="meta-row">
+            <span class="meta-tag">창작곡 《잊혀진 천》</span>
+            <span class="meta-tag">서정 · 발라드</span>
+            <span class="meta-tag">옛 사진 아카이브 투사</span>
+          </div>
+        </div>
+      </div>
+      <div class="act-card">
+        <div class="act-num a3">✨</div>
+        <div class="act-body">
+          <h3>제3장: 별빛내린 도림천</h3>
+          <div class="story">돌아온 생물들과 함께 바다를 향해 흘러가는 물의 순환. 귀환 생물의 실루엣이 쏟아지는 별빛으로 전환되는 피날레.</div>
+          <div class="meta-row">
+            <span class="meta-tag">창작곡 《별빛내린 도림천》</span>
+            <span class="meta-tag">합창 · 피날레</span>
+            <span class="meta-tag">별빛 미디어파사드</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 출연진 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-tag">최소 출연진, 최대 스펙터클</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="char-grid">
+      <div class="char-card">
+        <div class="emoji">💧</div>
+        <h4>방울</h4>
+        <div class="role">주인공 — 빗방울 아이</div>
+        <p>호기심 많은 빗방울. 관객의 시선을 대신하는 안내자</p>
+      </div>
+      <div class="char-card">
+        <div class="emoji">🦢</div>
+        <h4>청호</h4>
+        <div class="role">길잡이 — 귀환 왜가리</div>
+        <p>도림천의 생태와 유머를 담당하는 길잡이</p>
+      </div>
+      <div class="char-card">
+        <div class="emoji">🌊</div>
+        <h4>도림</h4>
+        <div class="role">물의 정령</div>
+        <p>미디어파사드(기억)를 깨우는 매개체</p>
+      </div>
+      <div class="char-card">
+        <div class="emoji">🎬</div>
+        <h4>미디어파사드</h4>
+        <div class="role">제4의 배우</div>
+        <p>50명 규모의 군중 씬, 생물 떼, 과거 다큐멘터리를 영상으로 100% 대체. 무대 위 '현재'와 벽면의 '기억'이 실시간 대화</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 시민 참여 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-tag">시민이 완성하는 예술</span>
+      <span class="section-line"></span>
+    </div>
+    <p class="prose">관람객에서 창작자로 — 시민이 직접 완성하는 무대입니다.</p>
+    <div class="citizen-grid">
+      <div class="citizen-card">
+        <div class="top">
+          <span class="ic">🎤</span>
+          <div>
+            <h4>목소리의 참여</h4>
+            <div class="sub">시민 합창단</div>
+          </div>
+        </div>
+        <p>8월 중 시민 대상 사전 공개 모집 및 녹음. 피날레 창작곡 《별빛내린 천》의 웅장한 코러스로 삽입됩니다.</p>
+      </div>
+      <div class="citizen-card">
+        <div class="top">
+          <span class="ic">🤚</span>
+          <div>
+            <h4>손길의 참여</h4>
+            <div class="sub">한지 생태지도</div>
+          </div>
+        </div>
+        <p>생태공예 체험을 통해 시민들이 직접 도림천 한지 지도를 제작. 완성된 지도는 무대와 영상의 핵심 소품으로 활용됩니다.</p>
+      </div>
+      <div class="citizen-card">
+        <div class="top">
+          <span class="ic">📷</span>
+          <div>
+            <h4>기억의 참여</h4>
+            <div class="sub">옛 사진 아카이브</div>
+          </div>
+        </div>
+        <p>복원 이전 도림천의 옛 사진을 시민 공모. '제2장 잿빛 기억' 미디어파사드 다큐멘터리 영상의 핵심 소스로 사용됩니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 참여 여정 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-tag">창작의 과정을 공유하고 영구적 기록을 남깁니다</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="acts">
+      <div class="act-card">
+        <div class="act-num a1">▶️</div>
+        <div class="act-body">
+          <h3>Step 1: 과정의 축제화</h3>
+          <div class="story">한지공예 제작 과정, 합창단 열띤 연습 장면, 옛 사진 수집 스토리를 유튜브 시리즈로 사전 공개하여 지역 사회의 기대감 고조.</div>
+          <div class="meta-row"><span class="meta-tag">YouTube 연계</span><span class="meta-tag">사전 홍보</span></div>
+        </div>
+      </div>
+      <div class="act-card">
+        <div class="act-num a2">📽️</div>
+        <div class="act-body">
+          <h3>Step 2: 벅찬 감동의 체감</h3>
+          <div class="story">축제 당일, 미디어파사드를 통해 나의 목소리와 제공한 사진이 거대한 예술 작품의 일부가 되어 투사되는 경험 제공.</div>
+          <div class="meta-row"><span class="meta-tag">본 공연 송출</span><span class="meta-tag">체감형 경험</span></div>
+        </div>
+      </div>
+      <div class="act-card">
+        <div class="act-num a3">🏛️</div>
+        <div class="act-body">
+          <h3>Step 3: 이름이 새겨지는 순간</h3>
+          <div class="story">합창단, 사진 공모자 등 참여 시민 전원의 이름을 피날레 영상 엔딩 크레딧에 표기. 지역사회의 자부심 고취 및 확실한 참여 증빙.</div>
+          <div class="meta-row"><span class="meta-tag">엔딩 크레딧</span><span class="meta-tag">시민 참여 증빙</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 일정 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-tag">실행 및 상영 계획</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="sched-wrap">
+      <table class="sched-table">
+        <thead>
+          <tr><th></th><th>10.24 (토)</th><th>10.25 (일)</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>주간<br>Daytime</strong></td>
+            <td>체험존 전역에 창작곡 1 배경음악 사전 노출<br>(관객 친밀도 확보 및 무의식적 학습)</td>
+            <td>체험존 전역에 창작곡 1 배경음악 사전 노출</td>
+          </tr>
+          <tr class="highlight">
+            <td><strong>야간<br>17:00~21:00</strong></td>
+            <td>미디어파사드 프리뷰:<br>1·2장 영상판 및 예고편 루프 상영.<br>야간 감성 조명과 연계하여 이튿날 본 공연 관람 적극 유도.</td>
+            <td>
+              <strong>🎭 17:00 Climax:</strong> 폐막식 연계 본 공연.<br>특설 무대 라이브 생태음악극 30분 진행.<br><br>
+              <strong>🌟 피날레:</strong> 실황 하이라이트 영상 + 3장 별빛 엔딩 풀버전 미디어파사드 상영.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 예산 운영 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-tag">1,500만 원의 한계를 돌파하는 운영 효율</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="citizen-grid">
+      <div class="citizen-card">
+        <div class="top"><span class="ic">👥</span><h4>인건비 구조적 최소화</h4></div>
+        <p>단 3인의 핵심 배우로 극 전체를 견인. 보조 출연자 및 엑스트라는 영상과 사전 녹음된 음원으로 100% 대체.</p>
+      </div>
+      <div class="citizen-card">
+        <div class="top"><span class="ic">🏗️</span><h4>기존 인프라 활용 극대화</h4></div>
+        <p>별도 대형 세트나 무대 구조물 제작비 ZERO. 기존 도림천 수변 상설 미디어파사드 시스템을 메인 무대 장치로 전환.</p>
+      </div>
+      <div class="citizen-card">
+        <div class="top"><span class="ic">🔄</span><h4>원소스 멀티유즈 (OSMU)</h4></div>
+        <p>제작된 창작곡은 공연 외에도 축제 현장 BGM, 홍보 영상 음원 등으로 다각적 활용 보장.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- IP 자산 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-tag">영구적 로컬 문화 자산 구축 — 2026 IP</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="ip-grid">
+      <div class="ip-card">
+        <div class="emoji">🎵</div>
+        <h4>음원 자산</h4>
+        <div class="en">Music IP</div>
+        <p>메인 테마곡 《별빛내린 천》을 비롯한 창작곡 3곡 확보. 매년 도림천 축제의 공식 주제가 및 체험존 배경음악으로 영구 사용 가능.</p>
+      </div>
+      <div class="ip-card">
+        <div class="emoji">🎞️</div>
+        <h4>영상 자산</h4>
+        <div class="en">Media Assets</div>
+        <p>미디어파사드 영상(아카이브 및 생태 CG)은 축제 기간 외에도 도림천 야간 경관을 위한 상시 상영 콘텐츠로 전환 가능.</p>
+      </div>
+      <div class="ip-card">
+        <div class="emoji">🤝</div>
+        <h4>시민 커뮤니티</h4>
+        <div class="en">Citizen DB</div>
+        <p>구축된 시민 합창단과 아카이브 제공자는 향후 구청 축제 및 문화 행사의 핵심 충성 고객층으로 편입.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2027 확장 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-tag">2027 모듈형 확장</span>
+      <span class="section-line"></span>
+    </div>
+    <p class="prose">
+      <strong>2026년 (30분):</strong> 핵심 서사 3장 완성.
+      <strong>2027년 (50분):</strong> 기존 장(場)을 100% 재사용하며, 전체를 새로 만들 필요가 없는 혁신적 모듈 설계.
+    </p>
+    <div class="citizen-grid">
+      <div class="citizen-card">
+        <div class="top"><span class="ic">🌏</span><h4>제2.5장 — 세계의 물</h4></div>
+        <p>이주민 공동창작 공모작 실화를 바탕으로 메콩강, 양쯔강의 물방울 이야기 추가.</p>
+      </div>
+      <div class="citizen-card">
+        <div class="top"><span class="ic">🌈</span><h4>제4.5장 — 내일의 냇물</h4></div>
+        <p>어린이들이 그린 '미래 도림천 그림' 투사 및 시민 실천 선언문 합창 편입.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 클로징 -->
+  <div class="closing">
+    <div class="stars" id="stars2"></div>
+    <div class="quote">물은 닫히지 않고,<br>언제나 <span class="gold">돌아옵니다</span>.</div>
+    <p>시민의 잊혀진 기억이 무대 위 예술이 되고,<br>그 예술이 다시 도림천을 밝히는 빛이 되는 완벽한 생태 순환.<br><br>
+    생태음악극 《물의 기억, 도림천》이<br>관악구의 밤을 밝히는 새로운 랜드마크로 시작합니다.</p>
+  </div>
+
+  <div class="cta-row">
+    <a class="cta-btn cta-primary" href="sns#instagram">📸 인스타그램에서 소식 받기</a>
+    <a class="cta-btn cta-secondary" href="join">✋ 시민 합창단 · 사진 공모 참여</a>
+    <a class="cta-btn cta-secondary" href="/">← 홈으로</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>&copy; 건강한도림천을만드는주민모임 1999-2026 · 사회혁신교육원</p>
+</footer>
+
+<script>
+(function() {
+  var saved = localStorage.getItem('rw_theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+})();
+(function() {
+  ['stars','stars2'].forEach(function(id) {
+    var c = document.getElementById(id);
+    if (!c) return;
+    for (var i = 0; i < 50; i++) {
+      var s = document.createElement('span');
+      s.style.left = Math.random() * 100 + '%';
+      s.style.top = Math.random() * 100 + '%';
+      s.style.animationDelay = (Math.random() * 3) + 's';
+      s.style.animationDuration = (2 + Math.random() * 2) + 's';
+      c.appendChild(s);
+    }
+  });
+})();
+</script>
+</body>
+</html>
